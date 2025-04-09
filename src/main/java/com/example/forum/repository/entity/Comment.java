@@ -3,11 +3,13 @@ package com.example.forum.repository.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "report")
+@Table(name = "comments")
 @Getter
 @Setter
 public class Comment {
@@ -23,5 +25,6 @@ public class Comment {
     private int reportId;
 
     @Column
+    @CreationTimestamp
     private Date createdDate;
 }

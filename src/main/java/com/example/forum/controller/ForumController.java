@@ -2,6 +2,7 @@ package com.example.forum.controller;
 
 import com.example.forum.controller.form.CommentForm;
 import com.example.forum.controller.form.ReportForm;
+import com.example.forum.service.CommentService;
 import com.example.forum.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import java.util.List;
 public class ForumController {
     @Autowired
     ReportService reportService;
+    @Autowired
+    CommentService commentService;
 
     /*
      * 投稿内容表示処理
@@ -27,10 +30,16 @@ public class ForumController {
         mav.setViewName("/top");
         // 投稿データオブジェクトを保管
         mav.addObject("contents", contentData);
+
         // commentForm用の空のentityを準備
-        CommentForm commentform = new CommentForm();
+        CommentForm commentForm = new CommentForm();
         // 準備した空のFormを保管
-        mav.addObject("commentForm", commentform);
+        mav.addObject("commentForm", commentForm);
+
+        // コメント全権取得
+        List<CommentForm> commentDate = commentService.findAllComment();
+        // コメントデータオブジェクトを保管
+        mav.addObject("comments", commentDate);
         return mav;
 
     }
@@ -104,13 +113,13 @@ public class ForumController {
     /*
      * コメント投稿処理
      */
-    @PutMapping("/comment/{id}")
+    @PostMapping("/comment/{id}")
     public ModelAndView addComment(@PathVariable Integer id,
-                                      @ModelAttribute("commentForm") CommentForm comment) {
+                                   @ModelAttribute("commentForm") CommentForm comment) {
         // UrlParameterのidを更新するentityにセット
-        comment.setId(id);
+        comment.setReportId(id);
         // 編集した投稿を更新
-        reportService.saveComment(comment);
+        commentService.saveComment(comment);
         // rootへリダイレクト
         return new ModelAndView("redirect:/");
     }

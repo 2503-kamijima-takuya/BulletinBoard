@@ -31,13 +31,19 @@
             </a>
         </div>
         <!-- コメントフォーム -->
-        <div class="comment">
+        <div class="comment-form">
             <form th:action="@{/comment/{id}(id=${content.id})}" th:object="${commentForm}" method="post">
                 <div class="comment-area">
-                    <textarea  name="text" th:field="*{text}" size="20" maxlength="200"/></textarea><br/>
+                    <textarea th:field="*{text}" size="20" maxlength="200"></textarea><br/>
                     <input type="submit" value="コメント"/>
                 </div>
             </form>
+        </div>
+        <!-- 各コメント表示 -->
+        <div class="comments" th:each="comment : ${comments}">
+            <div th:if="${content.id} == ${comment.reportId}">
+                〇 <span th:text="${comment.text}"/>
+            </div>
         </div>
     </div>
 </div>
