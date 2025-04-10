@@ -29,7 +29,8 @@ public class CommentService {
      */
     private Comment setCommentEntity(CommentForm reqComment) {
         Comment comment = new Comment();
-        comment.setReportId(reqComment.getId());
+        comment.setId(reqComment.getId());
+        comment.setReportId(reqComment.getReportId());
         comment.setText(reqComment.getText());
         return comment;
     }
@@ -59,5 +60,22 @@ public class CommentService {
             comments.add(comment);
         }
         return comments;
+    }
+
+    /*
+     * レコード1件取得
+     */
+    public CommentForm editComment(Integer id) {
+        List<Comment> results = new ArrayList<>();
+        results.add((Comment) commentRepository.findById(id).orElse(null));
+        List<CommentForm> comments = setCommentForm(results);
+        return comments.get(0);
+    }
+
+    /*
+     * 投稿を削除
+     */
+    public void deleteComment(Integer id) {
+        commentRepository.deleteById(id);
     }
 }

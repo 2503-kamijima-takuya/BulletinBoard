@@ -24,7 +24,6 @@ public class Comment {
     @Column
     private int reportId;
 
-    @Column
-    @CreationTimestamp
+    @Column(name = "created_date", insertable = false, updatable = false)
     private Date createdDate;
 }

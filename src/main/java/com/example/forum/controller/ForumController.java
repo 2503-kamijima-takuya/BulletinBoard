@@ -2,6 +2,7 @@ package com.example.forum.controller;
 
 import com.example.forum.controller.form.CommentForm;
 import com.example.forum.controller.form.ReportForm;
+import com.example.forum.repository.entity.Comment;
 import com.example.forum.service.CommentService;
 import com.example.forum.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,16 +114,55 @@ public class ForumController {
     /*
      * コメント投稿処理
      */
-    @PostMapping("/comment/{id}")
-    public ModelAndView addComment(@PathVariable Integer id,
+    @PostMapping("/comment/{reportId}")
+    public ModelAndView addComment(@PathVariable Integer reportId,
                                    @ModelAttribute("commentForm") CommentForm comment) {
         // UrlParameterのidを更新するentityにセット
-        comment.setReportId(id);
+        comment.setReportId(reportId);
         // 編集した投稿を更新
         commentService.saveComment(comment);
         // rootへリダイレクト
         return new ModelAndView("redirect:/");
     }
 
-}
+    /*
+     * コメント編集画面表示処理
+     */
+    @GetMapping("/edit/comment/{id}")
+    public ModelAndView editComment(@PathVariable Integer id) {
+        ModelAndView mav = new ModelAndView();
+        // 編集する投稿を取得
+        CommentForm comment = commentService.editComment(id);
+        // 編集する投稿をセット
+        mav.addObject("formModel", comment);
+        // 画面遷移先を指定
+        mav.setViewName("/edit_comment");
+        return mav;
+    }
 
+    /*
+     * コメント編集処理
+     */
+    @PutMapping("/update/comment/{id}")
+    public ModelAndView updateComment(@PathVariable Integer id,
+                                      @ModelAttribute("formModel") CommentForm comment) {
+        // UrlParameterのidを更新するentityにセット
+        comment.setId(id);
+        // 編集した投稿を更新
+        commentService.saveComment(comment);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
+     * 投稿削除処理
+     */
+    @DeleteMapping("/delete/comment/{id}")
+    public ModelAndView deleteComment(@PathVariable Integer id) {
+        // 投稿をテーブルに格納
+        commentService.deleteComment(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
+
+}

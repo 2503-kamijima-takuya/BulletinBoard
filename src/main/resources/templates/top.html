@@ -32,7 +32,7 @@
         </div>
         <!-- コメントフォーム -->
         <div class="comment-form">
-            <form th:action="@{/comment/{id}(id=${content.id})}" th:object="${commentForm}" method="post">
+            <form th:action="@{/comment/{reportId}(reportId=${content.id})}" th:object="${commentForm}" method="post">
                 <div class="comment-area">
                     <textarea th:field="*{text}" size="20" maxlength="200"></textarea><br/>
                     <input type="submit" value="コメント"/>
@@ -43,6 +43,10 @@
         <div class="comments" th:each="comment : ${comments}">
             <div th:if="${content.id} == ${comment.reportId}">
                 〇 <span th:text="${comment.text}"/>
+                <!-- コメント編集画面遷移ボタン -->
+                <form th:action="@{/edit/comment/{id}(id=${comment.id})}" method="get">
+                    <input type="submit" value="編集">
+                </form>
             </div>
         </div>
     </div>
