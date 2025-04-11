@@ -26,4 +26,5 @@ public class Comment {
 
     @Column(name = "created_date", insertable = false, updatable = false)
     private Date createdDate;
+
 }

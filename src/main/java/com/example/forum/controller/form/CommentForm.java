@@ -1,5 +1,6 @@
 package com.example.forum.controller.form;
 
+import com.example.forum.repository.entity.Report;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +17,5 @@ public class CommentForm {
     private int reportId;
 
     private Date createdDate;
+
 }

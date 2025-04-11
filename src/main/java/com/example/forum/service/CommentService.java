@@ -3,24 +3,36 @@ package com.example.forum.service;
 import com.example.forum.controller.form.CommentForm;
 import com.example.forum.controller.form.ReportForm;
 import com.example.forum.repository.CommentRepository;
+import com.example.forum.repository.ReportRepository;
 import com.example.forum.repository.entity.Comment;
 import com.example.forum.repository.entity.Report;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class CommentService {
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    ReportRepository reportRepository;
 
     /*
      * レコード追加
      */
     public void saveComment(CommentForm reqComment) {
         Comment saveComment = setCommentEntity(reqComment);
+//        Report report = saveComment.getReport();
+//        report.setUpdatedDate(new Date());
+//        reportRepository.save(report);
+        List<Report> results = new ArrayList<>();
+        results.add((Report) reportRepository.findById(saveComment.getReportId()).orElse(null));
+        Report saveReport = results.get(0);
+        saveReport.setUpdatedDate(new Date());
+        reportRepository.save(saveReport);
         commentRepository.save(saveComment);
     }
 
