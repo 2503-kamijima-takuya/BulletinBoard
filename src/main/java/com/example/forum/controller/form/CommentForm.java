@@ -1,6 +1,6 @@
 package com.example.forum.controller.form;
 
-import com.example.forum.repository.entity.Report;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +12,7 @@ public class CommentForm {
 
     private int id;
 
+    @NotBlank(message = "コメントを入力してください")
     private String text;
 
     private int reportId;

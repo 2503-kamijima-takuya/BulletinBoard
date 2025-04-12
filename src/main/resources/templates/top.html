@@ -38,6 +38,10 @@
                 <input type="button" value="編集">
             </a>
         </div>
+        <!-- エラーメッセージ表示 -->
+        <div th:if="${errorMessage} and ${content.id} == ${sessionId}">
+            <p th:text="${errorMessage}"></p>
+        </div>
         <!-- コメントフォーム -->
         <div class="comment-form">
             <form th:action="@{/comment/{reportId}(reportId=${content.id})}" th:object="${commentForm}" method="post">

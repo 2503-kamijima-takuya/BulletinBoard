@@ -24,7 +24,7 @@ public class ReportService {
     public List<ReportForm> findAllReport(String start, String end) {
         Date endDate = new Date();
         String date = "2020-01-01 00:00:00";
-        SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
             Date startDate = dateFormat.parse(date);
