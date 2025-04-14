@@ -40,19 +40,16 @@ public class ForumController {
             session.removeAttribute("errorMessage");
             session.removeAttribute("sessionId");
         }
-
         // 投稿を全件取得
         List<ReportForm> contentData = reportService.findAllReport(start, end);
         // 画面遷移先を指定
         mav.setViewName("/top");
         // 投稿データオブジェクトを保管
         mav.addObject("contents", contentData);
-
         // commentForm用の空のentityを準備
         CommentForm commentForm = new CommentForm();
         // 準備した空のFormを保管
         mav.addObject("commentForm", commentForm);
-
         // コメント全権取得
         List<CommentForm> commentDate = commentService.findAllComment();
         // コメントデータオブジェクトを保管
@@ -149,7 +146,6 @@ public class ForumController {
             }
             return new ModelAndView("redirect:/edit/{id}");
         }
-
         // UrlParameterのidを更新するentityにセット
         report.setId(id);
         // 現在時刻をentityにセット
@@ -176,7 +172,6 @@ public class ForumController {
             session.setAttribute("sessionId", reportId);
             return new ModelAndView("redirect:/");
         }
-
         // UrlParameterのidを更新するentityにセット
         comment.setReportId(reportId);
         // 編集した投稿を更新
@@ -191,12 +186,7 @@ public class ForumController {
     @GetMapping("/edit/comment/{id}")
     public ModelAndView editComment(@PathVariable Integer id, HttpSession session) {
         ModelAndView mav = new ModelAndView();
-        // セッションからエラーメッセージを取得
-        String errorMessage = (String) session.getAttribute("errorMessage");
-        if (errorMessage != null) {
-            mav.addObject("errorMessage", errorMessage);
-            session.removeAttribute("errorMessage");
-        }
+        
         // 編集する投稿を取得
         CommentForm comment = commentService.editComment(id);
         // 編集する投稿をセット
@@ -220,7 +210,6 @@ public class ForumController {
             }
             return new ModelAndView("redirect:/edit/comment/{id}");
         }
-
         // UrlParameterのidを更新するentityにセット
         comment.setId(id);
         // 編集した投稿を更新
