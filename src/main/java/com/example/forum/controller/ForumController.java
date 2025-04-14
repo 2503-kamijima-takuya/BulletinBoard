@@ -186,7 +186,12 @@ public class ForumController {
     @GetMapping("/edit/comment/{id}")
     public ModelAndView editComment(@PathVariable Integer id, HttpSession session) {
         ModelAndView mav = new ModelAndView();
-        
+        // セッションからエラーメッセージを取得
+        String errorMessage = (String) session.getAttribute("errorMessage");
+        if (errorMessage != null) {
+            mav.addObject("errorMessage", errorMessage);
+            session.removeAttribute("errorMessage");
+        }
         // 編集する投稿を取得
         CommentForm comment = commentService.editComment(id);
         // 編集する投稿をセット
